@@ -1,0 +1,118 @@
+set cursorline
+
+let g:rehash256 = 1 " Use experimental better 256color mode
+colorscheme molokai
+colorscheme darkcloud
+
+nnoremap tn :tabnew<CR>
+nnoremap tc :tabclose<CR>
+
+" X doesn't save to a register
+nnoremap x "_x
+vnoremap x "_x
+
+" Fly Mode - Skip to closing ]}) from deep within.
+let g:AutoPairsFlyMode = 1
+
+" Prevent lag on large ruby files
+let g:ruby_fold_lines_limit = 200
+
+" Automatically equalize splits on window resize
+autocmd vimResized * wincmd =
+
+" Enable mouse support. Evil but occasionally useful
+set mouse=a
+" ########################################
+" ############## STATUS LINE #############
+" ########################################
+let g:lightline = {
+\   'colorscheme': 'darkcloud',
+\   'active': {
+\       'left': [ [ 'mode', 'paste' ],
+\                 [ 'fugitive', 'readonly', 'filename', 'modified' ]],
+\       'right': [ [ 'lineinfo' ],
+\                  [ 'percent' ],
+\                  [ 'fileformat', 'fileencoding', 'filetype' ]]
+\   },
+\   'component_function': {
+\       'fileencoding': 'LLFileEncoding',
+\       'fileformat': 'LLFileFormat',
+\       'fugitive': 'LLFugitive',
+\       'modified': 'LLModified',
+\       'readonly': 'LLReadOnly'
+\   },
+\   'component': {
+\   },
+\   'component_visible_condition': {
+\   },
+\   'separator': {'left': '', 'right': ''},
+\   'subseparator': {'left': '', 'right': ''},
+\ }
+
+function LLFugitive()
+  if exists("*fugitive#head")
+    let branch = fugitive#head()
+    return branch != "" ? " ".branch : ""
+  endif
+  return "" 
+endfunction
+
+function! LLModified()
+  if &filetype == "help"
+    return ""
+  elseif &modified
+    if &readonly
+      return "!"
+    else
+      return "+"
+    endif
+  else
+    return ""
+  endif
+endfunction
+
+function LLReadOnly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function LLFileEncoding()
+  if &fileencoding == "utf-8"
+    return ""
+  else
+    return &fileencoding
+  endif
+endfunction
+
+function LLFileFormat()
+  if &fileformat == "unix"
+    return ""
+  else
+    return &fileformat
+  endif
+endfunction
+
+" ########################################
+" ############### SYNTASTIC ##############
+" ########################################
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_javascript_checkers = ['eslint', 'jshint']
+let g:syntastic_typescript_checkers = ['eslint']
+let g:syntastic_html_checkers = ['tidy']
+let g:syntastic_html_tidy_ignore_errors = [
+      \'attribute name "*ng',
+      \'proprietary attribute "bind-',
+      \'proprietary attribute "bindon-',
+      \'proprietary attribute "ng-',
+      \'proprietary attribute "on-',
+\]
+
+let g:syntastic_markdown_checkers = ['mdl', 'proselint']
+augroup filetype_markdown
+  autocmd FileType markdown set spell spelllang=en_us
+augroup END

@@ -1,0 +1,20 @@
+# set space as the prefix
+set -g prefix C-space
+bind Space send-prefix
+# switch to last window
+bind Space last-window
+bind C-Space last-pane
+# swap windows left and right
+bind Left swap-window -t -1
+bind Right swap-window -t +1
+# force a reload of the config file
+unbind r
+bind r source-file ~/.tmux.conf
+
+if-shell "[ -f ~/.tmux.conf.darkcloud ]" 'source ~/.tmux.conf.darkcloud'
+
+# Large main panes fits 2 vim documents side by side
+set-window-option -g main-pane-width 171
+
+# Use the mouse for scrollback
+set -g mouse on

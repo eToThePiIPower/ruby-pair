@@ -1,0 +1,41 @@
+#
+# DARKCLOUD TMUX CONFIG: tmux.conf
+#
+# Maintainer: Prurigro (prurigro-at-gmail-dot-com)
+# Website: https://github.com/prurigro/darkcloud-tmuxconfig
+#
+# License: MIT
+#
+# Notes:
+#
+# The status bar shows traffic for the eth0 network device by default.
+# To use a different device, set $NETDEV to it's device name (eg: wlan0).
+#
+
+# STATUS LINE
+#
+# settings
+set-option -g status on #enable the status bar
+set-option -g status-interval 2 #the number of seconds to wait before refreshing
+set-option -g status-justify left #justify the window list on the left
+set-option -g status-left-length '100' #the width in characters of the left side of the status line
+set-option -g status-right-length '100' #the width in characters of the right side of the status line
+set-window-option -g window-status-separator '' #the character to separate entries of the status line with
+#
+# general theme
+set-option -g status-style bg=colour236
+set-option -g message-style bg=colour235,fg=colour254,bold
+set-option -g message-command-style fg=colour253,bg=colour235
+set-window-option -g pane-border-style fg=colour235
+set-window-option -g pane-active-border-style fg=colour255
+set-window-option -g window-status-style fg=colour255,bg=colour236
+set-window-option -g window-status-activity-style fg=colour222,bold
+set-window-option -g window-status-bell-style fg=colour222,bold
+#
+# theme for active and inactive window titles respectively
+set-window-option -g window-status-current-format '#[fg=colour236,bg=colour235,nobold,nounderscore,noitalics]#[fg=colour253,bg=colour235,bold] #I #[fg=colour167,bg=colour235,bold,nounderscore,noitalics]#[fg=colour253,bg=colour235,bold] #W #[fg=colour235,bg=colour236,nobold,nounderscore,noitalics]'
+set-window-option -g window-status-format ' #I #[fg=colour117,bg=colour236,nobold,nounderscore,noitalics]#[fg=colour255,bg=colour236] #W '
+#
+# theme for the left and right sides respectively
+set-option -g status-left '#[fg=colour117,bg=colour235,bold] #S #[fg=colour235,bg=colour236,nobold,nounderscore,noitalics]'
+set-option -g status-right '#[fg=colour235,bg=colour236,nobold,nounderscore,noitalics]#[fg=colour222,bg=colour235] #([[ -n "$NETDEV" ]] && bwrate $NETDEV || bwrate eno1) #[fg=colour236,bg=colour235,nobold,nounderscore,noitalics]#[fg=colour117,bg=colour236] %Y-%m-%d %H:%M #[fg=colour235,bg=colour236,nobold,nounderscore,noitalics]#[fg=colour167,bg=colour235] #h '
